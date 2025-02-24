@@ -7,7 +7,7 @@ import markdown
 from PIL import Image
 
 # FastAPI backend URL
-API_URL = "http://localhost:8000/api/v1"  # Replace with your deployed FastAPI URL if hosted remotely
+API_URL = "https://content-extraction-api-607698884796.us-central1.run.app"  # Remove /docs from the URL
 
 def create_markdown_download(content: list, filename: str = "extracted_text.md") -> str:
     """Create a markdown file for download"""
@@ -71,12 +71,18 @@ with tab1:
         if st.button("🚀 Process PDF"):
             with st.spinner("Processing your PDF..."):
                 try:
-                    # Determine endpoint based on processor type
-                    endpoint = "opensource" if "Opensource" in processor_type else "enterprise"
+                    # Debug: Show which endpoint we're trying to use
+                    endpoint = "api/v1/opensource" if "Opensource" in processor_type else "api/v1/enterprise"
+                    st.info(f"Attempting to use endpoint: {endpoint}")
+                    
+                    # Debug: Show the full URL being called
+                    full_url = f"{API_URL}/{endpoint}/process-pdf"
+                    st.info(f"Calling API URL: {full_url}")
                     
                     # Send file to FastAPI endpoint
                     files = {"file": (uploaded_file.name, uploaded_file, "application/pdf")}
-                    response = requests.post(f"{API_URL}/{endpoint}/process-pdf", files=files)
+                    
+                    response = requests.post(full_url, files=files)
 
                     if response.status_code == 200:
                         result = response.json()
@@ -182,7 +188,7 @@ with tab2:
             with st.spinner("Processing webpage..."):
                 try:
                     # Determine endpoint based on processor type
-                    endpoint = "opensource" if "Opensource" in processor_type else "enterprise"
+                    endpoint = "api/v1/opensource" if "Opensource" in processor_type else "api/v1/enterprise"
                     
                     # Send request to FastAPI endpoint
                     response = requests.post(
@@ -299,8 +305,8 @@ with tab3:
         with st.spinner("Checking API health..."):
             try:
                 # Check both opensource and enterprise health
-                os_response = requests.get(f"{API_URL}/opensource/health")
-                ent_response = requests.get(f"{API_URL}/enterprise/health")
+                os_response = requests.get(f"{API_URL}/api/v1/opensource/health")
+                ent_response = requests.get(f"{API_URL}/api/v1/enterprise/health")
                 
                 if os_response.status_code == 200 and ent_response.status_code == 200:
                     os_status = os_response.json()
