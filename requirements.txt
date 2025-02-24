@@ -17,36 +17,16 @@ pandas>=2.0.0
 streamlit>=1.22.0
 
 # HTTP client
-requests>=2.28.0,<2.29.0
+requests>=2.28.0
 
 # Framework dependencies
-fastapi>=0.68.1,<0.69.0
-uvicorn>=0.15.0,<0.16.0
+fastapi>=0.68.1
+uvicorn>=0.15.0
 python-multipart>=0.0.5
-aiohttp>=3.7.4,<3.8.0  # Using older version for better compatibility
-httpx>=0.23.0,<0.24.0
+aiohttp>=3.8.1
+httpx>=0.23.0
 
 # Other utilities
 certifi>=2021.10.8
-python-dotenv>=0.19.2,<0.20.0
-
-# Build dependencies
-distutils-extra
-
-# Framework and ASGI server
-fastapi==0.68.1
-uvicorn==0.15.0
-
-# Web-related dependencies
-python-multipart==0.0.5
-aiohttp==3.8.1
-httpx==0.23.0
-
-# Other utilities
-certifi==2021.10.8
-python-dotenv==0.19.2
-
-# Streamlit for UI
-streamlit==1.22.0
-
-markdown 
+python-dotenv>=0.19.2
+markdown
