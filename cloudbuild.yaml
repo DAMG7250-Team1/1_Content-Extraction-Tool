@@ -1,0 +1,37 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/webscrapingsahil/content-extraction-api', '.']
+  
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/webscrapingsahil/content-extraction-api']
+  
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'content-extraction-api'
+      - '--image'
+      - 'gcr.io/webscrapingsahil/content-extraction-api'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT=${_AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT},AZURE_DOCUMENT_INTELLIGENCE_KEY=${_AZURE_DOCUMENT_INTELLIGENCE_KEY},AWS_ACCESS_KEY_ID=${_AWS_ACCESS_KEY_ID},AWS_SECRET_ACCESS_KEY=${_AWS_SECRET_ACCESS_KEY},AWS_BUCKET_NAME=${_AWS_BUCKET_NAME},AWS_REGION=${_AWS_REGION},DIFFBOT_TOKEN=${_DIFFBOT_TOKEN}'
+
+images:
+  - 'gcr.io/webscrapingsahil/content-extraction-api'
+
+substitutions:
+  _AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: ''
+  _AZURE_DOCUMENT_INTELLIGENCE_KEY: ''
+  _AWS_ACCESS_KEY_ID: ''
+  _AWS_SECRET_ACCESS_KEY: ''
+  _AWS_BUCKET_NAME: ''
+  _AWS_REGION: 'us-east-1'
+  _DIFFBOT_TOKEN: '' 
