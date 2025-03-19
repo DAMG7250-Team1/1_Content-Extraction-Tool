@@ -85,6 +85,4 @@ The user can download the Markdown file from the interface.
 Process logs, tool performance metrics, and extraction success/failure details are stored.
 A structured report summarizing the comparison between open-source and enterprise tools is generated.
 
-Contributions
 
-Sahil Kasliwal - 50%
